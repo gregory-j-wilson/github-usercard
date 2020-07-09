@@ -10,10 +10,19 @@ const gitUserMe = 'https://api.github.com/users/gregory-j-wilson'
 
 const cardsHolder = document.querySelector('.cards');
 
+const followersArray = [
+  'https://api.github.com/users/tetondan',
+  'https://api.github.com/users/dustinmyers',
+  'https://api.github.com/users/justsml',
+  'https://api.github.com/users/luishrd',
+  'https://api.github.com/users/bigknell'
+];
+
+
 axios.get(gitUserMe)
   .then(function (something) {
-      const card = cardMaker(something.data)
-      cardsHolder.appendChild(card)
+      // const card = cardMaker(something.data)
+      cardsHolder.appendChild(cardMaker(something.data))
 
     // WHATEVER WE WANT TO DO WITH THE RESPONSE NEEDS TO BE DONE RIGHT HERE
     // DOM manipulation etc
@@ -22,6 +31,23 @@ axios.get(gitUserMe)
     console.log(error)
   })
 
+  debugger
+followersArray.forEach( (follower) =>  {
+    axios.get(follower)
+      .then(function (something) {
+        debugger
+      // const card = cardMaker(something.data)
+      cardsHolder.appendChild(cardMaker(something.data))
+
+    // WHATEVER WE WANT TO DO WITH THE RESPONSE NEEDS TO BE DONE RIGHT HERE
+    // DOM manipulation etc
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+
+});
+
 
 
 /*
@@ -29,12 +55,14 @@ axios.get(gitUserMe)
     github info! You will need to understand the structure of this
     data in order to use it to build your component function
     --GOT IT--
-    Skip to STEP 3. --GOIN TO STEP 3
+    Skip to STEP 3. 
 */
 
 /*
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
+
+    --DONE--
 */
 
 
@@ -43,19 +71,15 @@ axios.get(gitUserMe)
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
     manually find some other users' github handles, or use the list found at the
     bottom of the page. Get at least 5 different Github usernames and add them as
-    Individual strings to the friendsArray below.
+    Individual strings to the friendsArray below. -- DONE --
 
     Using that array, iterate over it, requesting data for each user, creating a new card for each
     user, and adding that card to the DOM.
+
 */
 
-const followersArray = [
-  'tetondan',
-  'dustinmyers',
-  'justsml',
-  'luishrd',
-  'bigknell'
-];
+
+console.log(followersArray)
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -74,7 +98,7 @@ const followersArray = [
         <p>Following: {users following count}</p>
         <p>Bio: {users bio}</p>
       </div>
-    </div>
+    </div>  -- DONE --
 */
 
 
