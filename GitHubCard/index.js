@@ -1,34 +1,85 @@
+import axios from 'axios';
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
 
+const gitUserMe = 'https://api.github.com/users/gregory-j-wilson'
+
+const cardsHolder = document.querySelector('.cards');
+
+const followersArray = [
+  'https://api.github.com/users/tetondan',
+  'https://api.github.com/users/dustinmyers',
+  'https://api.github.com/users/justsml',
+  'https://api.github.com/users/luishrd',
+  'https://api.github.com/users/bigknell'
+];
+
+
+axios.get(gitUserMe)
+  .then(function (something) {
+      // const card = cardMaker(something.data)
+      cardsHolder.appendChild(cardMaker(something.data))
+
+    // WHATEVER WE WANT TO DO WITH THE RESPONSE NEEDS TO BE DONE RIGHT HERE
+    // DOM manipulation etc
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+
+  debugger
+followersArray.forEach( (follower) =>  {
+    axios.get(follower)
+      .then(function (something) {
+        debugger
+      // const card = cardMaker(something.data)
+      cardsHolder.appendChild(cardMaker(something.data))
+
+    // WHATEVER WE WANT TO DO WITH THE RESPONSE NEEDS TO BE DONE RIGHT HERE
+    // DOM manipulation etc
+  })
+  .catch(function (error) {
+    console.log(error)
+  })
+
+});
+
+
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
     data in order to use it to build your component function
-
-    Skip to STEP 3.
+    --GOT IT--
+    Skip to STEP 3. 
 */
 
 /*
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
+
+    --DONE--
 */
+
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
     manually find some other users' github handles, or use the list found at the
     bottom of the page. Get at least 5 different Github usernames and add them as
-    Individual strings to the friendsArray below.
+    Individual strings to the friendsArray below. -- DONE --
 
     Using that array, iterate over it, requesting data for each user, creating a new card for each
     user, and adding that card to the DOM.
+
 */
 
-const followersArray = [];
+
+console.log(followersArray)
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -47,8 +98,59 @@ const followersArray = [];
         <p>Following: {users following count}</p>
         <p>Bio: {users bio}</p>
       </div>
-    </div>
+    </div>  -- DONE --
 */
+
+
+
+function cardMaker(oneCard) {
+
+      const card = document.createElement('div')
+        card.classList.add('card')
+          const userImg = document.createElement('img')
+          userImg.src = oneCard.avatar_url
+          const cardInfo = document.createElement('div')
+            cardInfo.classList.add('card-info')
+              const personName = document.createElement('h3')
+                personName.classList.add('name')
+                personName.textContent = oneCard.name
+              const userName = document.createElement('p')
+                userName.classList.add('username')
+                userName.textContent = oneCard.login
+              const location = document.createElement('p')
+                location.textContent = `Location: ${oneCard.location}`
+              const profile = document.createElement('p')
+                  profile.textContent = 'Profile: '
+                  // profileWord.style.display = 'inline'
+                const profileLink = document.createElement('a')
+                  profileLink.href = oneCard.html_url
+                  profileLink.textContent = oneCard.html_url
+                  // profileLink.style.display = 'inline'
+              const followersPeop = document.createElement('p')
+                followersPeop.textContent = `Followers: ${oneCard.followers}`
+              const followingPeop = document.createElement('p')
+                followingPeop.textContent = `Following: ${oneCard.following}`
+              const userBio = document.createElement('p')
+                userBio.textContent = `Bio: ${oneCard.bio}`           
+      
+
+      card.appendChild(userImg)
+      card.appendChild(cardInfo)
+
+      cardInfo.appendChild(personName)
+      cardInfo.appendChild(userName)
+      cardInfo.appendChild(location)
+      cardInfo.appendChild(profile)
+
+        profile.appendChild(profileLink)
+      
+      cardInfo.appendChild(followersPeop)
+      cardInfo.appendChild(followingPeop)
+      cardInfo.appendChild(userBio)
+
+      return card
+}
+
 
 /*
   List of LS Instructors Github username's:
